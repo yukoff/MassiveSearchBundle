@@ -13,6 +13,7 @@ use Massive\Bundle\SearchBundle\Search\Event\HitEvent;
 use Metadata\MetadataFactory;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Massive\Bundle\SearchBundle\Search\Event\PreIndexEvent;
 
 class SearchManager implements SearchManagerInterface
 {
@@ -128,26 +129,32 @@ class SearchManager implements SearchManagerInterface
             );
         }
 
-        $this->adapter->index($document, $indexName);
+
+        $preIndexEvent = new PreIndexEvent($document, $indexName);
+        $this->eventDispatcher->dispatch(
+            SearchEvents::PRE_INDEX,
+            $preIndexEvent
+        );
+
+        $this->adapter->index($document, $preIndexEvent->getIndexName());
     }
 
     /**
      * {@inheritdoc}
      */
-    public function search($string, $indexNames = null)
+    public function search($string, $indexNames = null, $hints = array())
     {
         if (null === $indexNames) {
             throw new \Exception('Not implemented yet');
         }
 
+        $searchEvent = new SearchEvent($string, (array) $indexNames, $hints);
         $this->eventDispatcher->dispatch(
             SearchEvents::SEARCH,
-            new SearchEvent($string, $indexNames)
+            $searchEvent
         );
 
-        $indexNames = (array)$indexNames;
-
-        $hits = $this->adapter->search($string, $indexNames);
+        $hits = $this->adapter->search($string, $searchEvent->getIndexNames());
 
         $reflections = array();
         /** @var QueryHit $hit */
