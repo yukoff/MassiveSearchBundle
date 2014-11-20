@@ -5,6 +5,7 @@ CHANGELOG
 -----
 
 - [TestAdapter] Test (memory storage) adapter now uses regex when searching
+- [TestAdapter] Remove by ID not by matching instances
 
 0.3.2
 -----

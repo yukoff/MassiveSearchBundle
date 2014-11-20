@@ -40,9 +40,9 @@ class TestAdapter implements AdapterInterface
 
     public function deindex(Document $document, $indexName)
     {
-        foreach ($this->documents as $i => $selfDocument) {
-            if ($document === $selfDocument) {
-                unset($this->documents[$i]);
+        foreach (array_keys($this->documents) as $id) {
+            if ($id === $document->getId()) {
+                unset($this->documents[$id]);
             }
         }
 
