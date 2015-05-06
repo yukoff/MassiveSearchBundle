@@ -95,12 +95,14 @@ class SearchManager implements SearchManagerInterface
 
         foreach ($metadata->getIndexMetadatas() as $indexMetadata) {
             $this->markIndexToFlush($indexMetadata->getIndexName());
-            $indexNames = $this->getLocalizedIndexNamesFor($indexMetadata->getIndexName());
+            $document = $this->converter->objectToDocument($indexMetadata, $object);
 
-            foreach ($indexNames as $indexName) {
-                $document = $this->converter->objectToDocument($indexMetadata, $object);
-                $this->adapter->deindex($document, $indexName);
+            $indexName = $indexMetadata->getIndexName();
+            if ($indexMetadata->getLocaleField()) {
+                $indexName = $this->localizationStrategy->localizeIndexName($indexName, $document->getLocale());
             }
+
+            $this->adapter->deindex($document, $indexName);
         }
     }
 
