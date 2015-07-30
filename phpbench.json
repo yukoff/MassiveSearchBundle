@@ -1,0 +1,39 @@
+{
+    "bootstrap": "vendor/symfony-cmf/testing/bootstrap/bootstrap.php",
+    "path": "Tests/Benchmark",
+    "reports": {
+        "index_scaling": {
+            "generator": "console_table",
+            "title": "Index scaling performance",
+            "description": "Test indexing performance on increasing numbers of records",
+            "rows": [
+                {
+                    "cells": {
+                        "adapter": "php:bench('class_name', string(ancestor::benchmark/@class))",
+                        "{{ cell.item }}": {
+                            "expr": "number(../subject[group[@name='{{ param.group }}']][parameter[@name='nb_documents']/@value = '{{ cell.item }}']//iteration/@time)",
+                            "with_items": ["10", "100", "1000"]
+                        }
+                    },
+                    "with_query": ".//subject[group[@name='{{ param.group }}']][parameter[@name='nb_documents']/@value = '1000']"
+                }
+            ],
+            "params": {"group": "index"},
+            "format": {
+                "10": ["!number", "%s<comment>μs</comment>"],
+                "100": ["!number", "%s<comment>μs</comment>"],
+                "1000": ["!number", "%s<comment>μs</comment>"]
+            }
+        },
+        "search_scaling": {
+            "extends": "index_scaling",
+            "title": "Search scaling performance",
+            "description": "Test search performance with increasing numbers of records",
+            "params": {"group": "search"}
+        },
+        "all": {
+            "generator": "composite",
+            "reports": ["index_scaling", "search_scaling"]
+        }
+    }
+}
