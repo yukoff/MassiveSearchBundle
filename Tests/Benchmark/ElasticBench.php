@@ -18,10 +18,9 @@ use Massive\Bundle\SearchBundle\Search\SearchManager;
 use Massive\Bundle\SearchBundle\Tests\Resources\TestBundle\Entity\Product;
 
 /**
- * @processIsolation iteration
  * @group adapter_elastic
  */
-class ElasticBench extends AdapterBench implements Benchmark
+class ElasticBench extends AdapterBench
 {
     protected function getAdapterId()
     {

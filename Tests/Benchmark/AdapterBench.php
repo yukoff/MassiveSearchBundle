@@ -12,15 +12,14 @@ namespace Massive\Bundle\SearchBundle\Tests\Benchmark;
 
 use Massive\Bundle\SearchBundle\Tests\Resources\app\AppKernel;
 use Symfony\Cmf\Component\Testing\Functional\BaseTestCase;
-use PhpBench\Benchmark;
-use PhpBench\Benchmark\Iteration;
 use Massive\Bundle\SearchBundle\Search\SearchManager;
 use Massive\Bundle\SearchBundle\Tests\Resources\TestBundle\Entity\Product;
+use PhpBench\BenchmarkInterface;
 
 /**
  * @iterations 3
  */
-abstract class AdapterBench extends BaseTestCase implements Benchmark
+abstract class AdapterBench extends BaseTestCase implements BenchmarkInterface
 {
     public function setUp()
     {
@@ -43,12 +42,12 @@ abstract class AdapterBench extends BaseTestCase implements Benchmark
      * @paramProvider provideNbDocuments
      * @group index
      */
-    public function benchIndex(Iteration $iteration)
+    public function benchIndex($params)
     {
         $manager = $this->getSearchManager($this->getAdapterId());
         $manager->purge('product');
 
-        $nbDocuments = $iteration->getParameter('nb_documents');
+        $nbDocuments = $params['nb_documents'];
 
         for ($i = 0; $i < $nbDocuments; $i++) {
             $product = new Product();

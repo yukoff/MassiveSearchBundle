@@ -11,11 +11,11 @@
                     "cells": {
                         "adapter": "php:bench('class_name', string(ancestor::benchmark/@class))",
                         "{{ cell.item }}": {
-                            "expr": "number(../subject[group[@name='{{ param.group }}']][parameter[@name='nb_documents']/@value = '{{ cell.item }}']//iteration/@time)",
+                            "expr": "number(./variant[parameter[@name='nb_documents']/@value = {{ cell.item }}]//iteration/@time)",
                             "with_items": ["10", "100", "1000"]
                         }
                     },
-                    "with_query": ".//subject[group[@name='{{ param.group }}']][parameter[@name='nb_documents']/@value = '1000']"
+                    "with_query": ".//subject[group[@name='{{ param.group }}']]"
                 }
             ],
             "params": {"group": "index"},
