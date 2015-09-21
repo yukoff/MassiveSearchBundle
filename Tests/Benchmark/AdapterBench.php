@@ -10,11 +10,10 @@
 
 namespace Massive\Bundle\SearchBundle\Tests\Benchmark;
 
-use Massive\Bundle\SearchBundle\Tests\Resources\app\AppKernel;
-use Symfony\Cmf\Component\Testing\Functional\BaseTestCase;
 use Massive\Bundle\SearchBundle\Search\SearchManager;
+use Massive\Bundle\SearchBundle\Tests\Resources\app\AppKernel;
 use Massive\Bundle\SearchBundle\Tests\Resources\TestBundle\Entity\Product;
-use PhpBench\BenchmarkInterface;
+use Symfony\Cmf\Component\Testing\Functional\BaseTestCase;
 
 /**
  * @iterations 3
@@ -31,7 +30,7 @@ abstract class AdapterBench extends BaseTestCase
     {
     }
 
-    protected abstract function getAdapterId();
+    abstract protected function getAdapterId();
 
     protected static function getKernelClass()
     {
@@ -49,14 +48,15 @@ abstract class AdapterBench extends BaseTestCase
 
         $nbDocuments = $params['nb_documents'];
 
-        for ($i = 0; $i < $nbDocuments; $i++) {
+        for ($i = 0; $i < $nbDocuments; ++$i) {
             $product = new Product();
             $product->setId($i);
 
             if ($i == floor($nbDocuments / 2)) {
                 $product->setTitle('Needle');
-            } {
-                $product->setTitle('Hello this is a product '.$i);
+            }
+            {
+                $product->setTitle('Hello this is a product ' . $i);
             }
             $product->setBody('To be or not to be, that is the question');
             $product->setUrl('/foobar');
@@ -90,16 +90,16 @@ abstract class AdapterBench extends BaseTestCase
 
     public function provideNbDocuments()
     {
-        return array(
-            array(
+        return [
+            [
                 'nb_documents' => 10,
-            ),
-            array(
+            ],
+            [
                 'nb_documents' => 100,
-            ),
-            array(
+            ],
+            [
                 'nb_documents' => 1000,
-            ),
-        );
+            ],
+        ];
     }
 }

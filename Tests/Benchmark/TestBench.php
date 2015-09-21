@@ -10,13 +10,6 @@
 
 namespace Massive\Bundle\SearchBundle\Tests\Benchmark;
 
-use Massive\Bundle\SearchBundle\Tests\Resources\app\AppKernel;
-use Symfony\Cmf\Component\Testing\Functional\BaseTestCase;
-use PhpBench\Benchmark;
-use PhpBench\Benchmark\Iteration;
-use Massive\Bundle\SearchBundle\Search\SearchManager;
-use Massive\Bundle\SearchBundle\Tests\Resources\TestBundle\Entity\Product;
-
 /**
  * @group adapter_test
  */
