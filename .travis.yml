@@ -10,10 +10,11 @@ php:
 
 before_script:
   - composer selfupdate
+  - composer global require phpbench/phpbench dev-master
   - composer install
 
 script: 
     - phpunit --coverage-text
     - vendor/bin/behat --suite=zend_lucene
     - vendor/bin/behat --suite=elastic
-    - vendor/bin/phpbench run --report=all
+    - ~/.composer/vendor/bin/phpbench run --report=all

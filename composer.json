@@ -28,8 +28,7 @@
         "doctrine/orm": "~2.4",
         "behat/behat": "~3.0.0",
         "behat/web-api-extension": "~1.0@dev",
-        "behat/symfony2-extension": "~2.0@dev",
-        "phpbench/phpbench": "dev-master@dev"
+        "behat/symfony2-extension": "~2.0@dev"
     },
     "suggest": {
         "zendframework/zendsearch": "To use the PHP based Zend Search library (based on Lucene)",
