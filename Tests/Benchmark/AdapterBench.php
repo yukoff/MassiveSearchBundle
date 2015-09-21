@@ -19,7 +19,7 @@ use PhpBench\BenchmarkInterface;
 /**
  * @iterations 3
  */
-abstract class AdapterBench extends BaseTestCase implements BenchmarkInterface
+abstract class AdapterBench extends BaseTestCase
 {
     public function setUp()
     {

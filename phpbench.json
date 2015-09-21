@@ -3,27 +3,10 @@
     "path": "Tests/Benchmark",
     "reports": {
         "index_scaling": {
-            "generator": "console_table",
+            "generator": "console_table_custom",
             "title": "Index scaling performance",
             "description": "Test indexing performance on increasing numbers of records",
-            "rows": [
-                {
-                    "cells": {
-                        "adapter": "php:bench('class_name', string(ancestor::benchmark/@class))",
-                        "{{ cell.item }}": {
-                            "expr": "number(./variant[parameter[@name='nb_documents']/@value = {{ cell.item }}]//iteration/@time)",
-                            "with_items": ["10", "100", "1000"]
-                        }
-                    },
-                    "with_query": ".//subject[group[@name='{{ param.group }}']]"
-                }
-            ],
-            "params": {"group": "index"},
-            "format": {
-                "10": ["!number", "%s<comment>μs</comment>"],
-                "100": ["!number", "%s<comment>μs</comment>"],
-                "1000": ["!number", "%s<comment>μs</comment>"]
-            }
+            "file": "Tests/Benchmark/reports/index_scaling.json"
         },
         "search_scaling": {
             "extends": "index_scaling",
