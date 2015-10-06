@@ -11,9 +11,9 @@
 
 namespace Massive\Bundle\SearchBundle\Search;
 
-use Massive\Bundle\SearchBundle\Search\Metadata\FieldEvaluator;
-use Massive\Bundle\SearchBundle\Search\Metadata\IndexMetadata;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
+use Massive\Bundle\SearchBundle\Search\Metadata\IndexMetadata;
+use Massive\Bundle\SearchBundle\Search\Metadata\FieldEvaluator;
 
 /**
  * Convert mapped objects to search documents.
@@ -128,7 +128,7 @@ class ObjectToDocumentConverter
     private function populateDocument($document, $object, $fieldMapping, $prefix = '')
     {
         foreach ($fieldMapping as $fieldName => $mapping) {
-            $requiredMappings = ['field', 'type'];
+            $requiredMappings = array('field', 'type');
 
             foreach ($requiredMappings as $requiredMapping) {
                 if (!isset($mapping[$requiredMapping])) {
@@ -139,11 +139,11 @@ class ObjectToDocumentConverter
                 }
             }
 
-            $mapping = array_merge([
+            $mapping = array_merge(array(
                 'stored' => true,
                 'aggregate' => false,
                 'indexed' => true,
-            ], $mapping);
+            ), $mapping);
 
             if ($mapping['type'] == 'complex') {
                 if (!isset($mapping['mapping'])) {
@@ -176,13 +176,6 @@ class ObjectToDocumentConverter
 
             $value = $this->fieldEvaluator->getValue($object, $mapping['field']);
 
-            if ($value !== null && false === is_scalar($value)) {
-                throw new \InvalidArgumentException(sprintf(
-                    'Search field "%s" resolved to non-scalar value with type "%s". Only scalar (single) values can be indexed.',
-                    $fieldName, gettype($value)
-                ));
-            }
-
             if (!is_array($value)) {
                 $document->addField(
                     $this->factory->createField(
@@ -198,18 +191,16 @@ class ObjectToDocumentConverter
                 continue;
             }
 
-            foreach ($value as $key => $itemValue) {
-                $document->addField(
-                    $this->factory->createField(
-                        $prefix . $fieldName . $key,
-                        $itemValue,
-                        $mapping['type'],
-                        $mapping['stored'],
-                        $mapping['indexed'],
-                        $mapping['aggregate']
-                    )
-                );
-            }
+            $document->addField(
+                $this->factory->createField(
+                    $prefix . $fieldName,
+                    $value,
+                    $mapping['type'],
+                    $mapping['stored'],
+                    $mapping['indexed'],
+                    $mapping['aggregate']
+                )
+            );
         }
     }
 }
