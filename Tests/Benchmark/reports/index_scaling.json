@@ -10,7 +10,7 @@
                     "class": "microsecond",
                     "name": "{{ cell.item }}",
                     "expr": "number(./variant[parameter[@name='nb_documents']/@value = {{ cell.item }}]//iteration/@time) div 1000000",
-                    "with_items": ["10", "100", "1000"]
+                    "with_items": ["50", "100", "200"]
                 }
             ],
             "with_query": ".//subject[group[@name='{{ param.group }}']]"

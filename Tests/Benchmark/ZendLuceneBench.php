@@ -11,7 +11,7 @@
 namespace Massive\Bundle\SearchBundle\Tests\Benchmark;
 
 /**
- * @group adapter_lucene
+ * @Groups({"adapter_lucene"}, extend=true)
  */
 class ZendLuceneBench extends AdapterBench
 {

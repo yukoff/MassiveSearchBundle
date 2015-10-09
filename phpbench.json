@@ -3,7 +3,7 @@
     "path": "Tests/Benchmark",
     "reports": {
         "index_scaling": {
-            "generator": "console_table_custom",
+            "generator": "table_custom",
             "title": "Index scaling performance",
             "description": "Test indexing performance on increasing numbers of records",
             "file": "Tests/Benchmark/reports/index_scaling.json"

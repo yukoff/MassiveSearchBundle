@@ -16,7 +16,8 @@ use Massive\Bundle\SearchBundle\Tests\Resources\TestBundle\Entity\Product;
 use Symfony\Cmf\Component\Testing\Functional\BaseTestCase;
 
 /**
- * @iterations 3
+ * @Iterations(3)
+ * @BeforeMethods({"setUp"})
  */
 abstract class AdapterBench extends BaseTestCase
 {
@@ -38,8 +39,8 @@ abstract class AdapterBench extends BaseTestCase
     }
 
     /**
-     * @paramProvider provideNbDocuments
-     * @group index
+     * @ParamProviders({"provideNbDocuments"})
+     * @Groups({"index"})
      */
     public function benchIndex($params)
     {
@@ -67,9 +68,9 @@ abstract class AdapterBench extends BaseTestCase
     }
 
     /**
-     * @paramProvider provideNbDocuments
-     * @beforeMethod benchIndex
-     * @group search
+     * @ParamProviders({"provideNbDocuments"})
+     * @BeforeMethods({"benchIndex"}, extend=true)
+     * @Groups({"search"})
      */
     public function benchSearch()
     {
@@ -92,13 +93,13 @@ abstract class AdapterBench extends BaseTestCase
     {
         return [
             [
-                'nb_documents' => 10,
+                'nb_documents' => 50,
             ],
             [
                 'nb_documents' => 100,
             ],
             [
-                'nb_documents' => 1000,
+                'nb_documents' => 200,
             ],
         ];
     }

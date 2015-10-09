@@ -11,7 +11,7 @@
 namespace Massive\Bundle\SearchBundle\Tests\Benchmark;
 
 /**
- * @group adapter_elastic
+ * @Groups({"adapter_elastic"}, extend=true)
  */
 class ElasticBench extends AdapterBench
 {
