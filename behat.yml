@@ -25,6 +25,7 @@ default:
             filters:
                 tags: '@test'
     extensions:
+        # TODO: Migrate to FriendsOfBehat\SymfonyExtension
         Behat\Symfony2Extension:
             kernel:
                 path: Tests/Resources/app/AppKernel.php

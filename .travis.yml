@@ -23,6 +23,10 @@ matrix:
       env:
         - PREFER=""
         - SYMFONY_DEPRECATIONS_HELPER=weak
+    - php: 7.1
+      env:
+        - PREFER=""
+        - SYMFONY_DEPRECATIONS_HELPER=weak
 
 before_install:
   - phpenv config-add Tests/travis.php.ini
