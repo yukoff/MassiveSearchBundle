@@ -49,10 +49,35 @@ class Configuration implements ConfigurationInterface
                         ->arrayNode('elastic')
                             ->addDefaultsifNotSet()
                             ->children()
-                                ->scalarNode('version')->defaultValue('2.2')->end()
+                                ->scalarNode('version')->defaultValue('5.0')->end()
                                 ->arrayNode('hosts')
                                     ->defaultValue(['localhost:9200'])
-                                    ->prototype('scalar')->end()
+                                    ->prototype('array')
+                                        ->beforeNormalization()
+                                        ->ifString()
+                                            ->then(function($v) {
+                                                $parts = parse_url($v);
+                                                if (!$parts['port'] && !!$parts['scheme']) {
+                                                    switch ($parts['scheme']) {
+                                                        case 'https':
+                                                            $parts['port'] = 443;
+                                                            break;
+                                                        case 'http':
+                                                            $parts['port'] = 80;
+                                                            break;
+                                                    }
+                                                }
+                                                return $parts;
+                                            })
+                                        ->end()
+                                        ->children()
+                                            ->scalarNode('host')->isRequired()->end()
+                                            ->scalarNode('port')->end()
+                                            ->scalarNode('scheme')->end()
+                                            ->scalarNode('user')->end()
+                                            ->scalarNode('pass')->end()
+                                        ->end()
+                                    ->end()
                                 ->end()
                             ->end()
                         ->end()
